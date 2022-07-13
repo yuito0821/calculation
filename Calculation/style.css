@@ -1,0 +1,9 @@
+canvas {
+    border: black solid 1px;
+    user-select: none;
+    /* CSS3 */
+    -moz-user-select: none;
+    /* Firefox */
+    -webkit-user-select: none;
+    /* Safari、Chromeなど */
+}
