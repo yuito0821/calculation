@@ -7,7 +7,7 @@ let four, number = [], score, errorCount;
 
 let startflag = true;
 
-ctx.font = "40px bold";
+ctx.font = "40px sans-serif";
 const startText = "SPACEキーでスタート";
 let textWidth = ctx.measureText(startText).width;
 ctx.fillText(startText, (canvas.width - textWidth) / 2, 300);
@@ -65,30 +65,30 @@ function loop() {
     }
 
 
-    ctx.font = "60px bold";
+    ctx.font = "50px sans-serif";
     ctx.fillText(number[0], 40, 100);
 
 
     if (four == 0) {
-        ctx.drawImage(addition, 120, 50, 60, 60); //+
+        ctx.drawImage(addition, 120, 58, 50, 50); //+
         answer = number[0] + number[1];
     } else if (four == 1) {
-        ctx.drawImage(subtraction, 120, 50, 60, 60); //-
+        ctx.drawImage(subtraction, 120, 58, 50, 50); //-
         answer = number[0] - number[1];
     } else if (four == 2) {
-        ctx.drawImage(multiplication, 120, 50, 60, 60); //*
+        ctx.drawImage(multiplication, 120, 58, 50, 50); //*
         answer = number[0] * number[1];
     } else {
-        ctx.drawImage(division, 120, 50, 60, 60); ///
+        ctx.drawImage(division, 120, 58, 50, 50); ///
         answer = number[0] / number[1];
     }
     console.log(answer);
 
     ctx.fillText(number[1], 195, 100);
 
-    ctx.drawImage(equal, 275, 50, 60, 60); //=
+    ctx.drawImage(equal, 275, 58, 50, 50); //=
 
-    ctx.font = "30px bold";
+    ctx.font = "30px sans-serif";
     let scoretext = "スコア：" + score + "　　ミス：" + errorCount;
     textWidth = ctx.measureText(scoretext).width;
     ctx.fillText(scoretext, (canvas.width - textWidth) / 2, 300);
@@ -137,7 +137,7 @@ function Display() {
     } else {
         response = keycode[0];
     }
-    ctx.font = "60px bold"
+    ctx.font = "50px sans-serif"
     ctx.fillText(response, 370, 100);
     keypresstimes++;
     if (keypresstimes === 3) {
@@ -159,7 +159,7 @@ function Check() {
     } else {
         ctx.drawImage(error, 335, 35, 50, 50);
         errorCount++;
-        ctx.font = "40px bold";
+        ctx.font = "40px sans-serif";
         ctx.fillText("正解　" + answer, 270, 160);
     }
 
