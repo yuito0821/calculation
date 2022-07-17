@@ -5,7 +5,7 @@ const ctx = canvas.getContext("2d");
 
 let four, number = [], score, errorCount, timer;
 
-let startflag = true;
+let startflag = true, timerflag;
 
 ctx.font = "40px sans-serif";
 ctx.fillStyle = "black";
@@ -17,7 +17,7 @@ textWidth = ctx.measureText(startText).width;
 ctx.fillText(startText, (canvas.width - textWidth) / 2, 380);
 
 function start() {
-    startText = "スタート";
+    startText = "スタート！！";
     textWidth = ctx.measureText(startText).width;
     ctx.fillText(startText, (canvas.width - textWidth) / 2, 400);
 
@@ -42,6 +42,8 @@ function start() {
         ctx.drawImage(decision, 397, 459, 100, 100);
 
         timer = 400;
+        timerflag = true;
+        keyflag = true;
 
         four = Math.floor(Math.random() * 4);
         score = 0, errorCount = 0;
@@ -129,7 +131,7 @@ function loop() {
 
 let keycode = [];
 let keypresstimes = 0;
-let keyflag = true;
+let keyflag = false;
 let Enterflag = true;
 
 document.addEventListener('keypress', keypress);
@@ -401,7 +403,7 @@ let countdown = setInterval(function () {
     timer--;
 
 
-    if (timer <= 400) {
+    if (timerflag == true) {
         ctx.clearRect(100, 280, 400, 15);
         ctx.strokeRect(100, 280, 400, 15);
         ctx.font = "20px sans-serif";
@@ -411,6 +413,7 @@ let countdown = setInterval(function () {
     }
 
     if (timer == 0) {
+        timerflag = false;
         End();
     }
 }, 100)
