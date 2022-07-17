@@ -14,6 +14,24 @@ let textWidth = ctx.measureText(startText).width;
 ctx.fillText(startText, (canvas.width - textWidth) / 2, 300);
 
 function start() {
+    ctx.drawImage(seven, 100, 360, 100, 100);
+    ctx.drawImage(eight, 199, 360, 100, 100);
+    ctx.drawImage(nine, 298, 360, 100, 100);
+
+    ctx.drawImage(four4, 100, 459, 100, 100);
+    ctx.drawImage(five, 199, 459, 100, 100);
+    ctx.drawImage(six, 298, 459, 100, 100);
+
+    ctx.drawImage(one, 100, 558, 100, 100);
+    ctx.drawImage(two, 199, 558, 100, 100);
+    ctx.drawImage(three, 298, 558, 100, 100);
+
+    ctx.drawImage(zero, 199, 657, 100, 100);
+
+    ctx.drawImage(clear, 397, 360, 100, 100);
+    ctx.drawImage(decision, 397, 459, 100, 100);
+
+
     four = Math.floor(Math.random() * 4);
     score = 0, errorCount = 0;
     loop();
@@ -184,7 +202,7 @@ let countdown = setInterval(function () {
         ctx.strokeRect(100, 280, 400, 15);
         ctx.font = "20px sans-serif";
         ctx.fillStyle = "black";
-        ctx.fillText("TIME", 20, 294);
+        ctx.fillText("残り時間", 10, 294);
         ctx.fillRect(100, 280, timer, 15)
     }
 
