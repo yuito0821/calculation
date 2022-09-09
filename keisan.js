@@ -5,7 +5,7 @@ const ctx = canvas.getContext("2d");
 
 let four, number = [], score, errorCount, timer;
 
-let startflag = true, timerflag;
+let startflag = true, timerflag, tutorialflag = true;
 
 ctx.font = "40px sans-serif";
 ctx.fillStyle = "black";
@@ -16,7 +16,13 @@ startText = "スタート";
 textWidth = ctx.measureText(startText).width;
 ctx.fillText(startText, (canvas.width - textWidth) / 2, 380);
 
+ctx.strokeRect(230, 500, 140, 60);
+ctx.font = "30px sans-serif";
+ctx.fillText("遊び方", 255, 540);
+ctx.font = "40px sans-serif";
+
 function start() {
+    tutorialflag = false;
     startText = "スタート！！";
     textWidth = ctx.measureText(startText).width;
     ctx.fillText(startText, (canvas.width - textWidth) / 2, 400);
@@ -24,26 +30,27 @@ function start() {
     const ms = 1000;
     setTimeout(() => {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
-        ctx.drawImage(seven, 100, 360, 100, 100);
-        ctx.drawImage(eight, 199, 360, 100, 100);
-        ctx.drawImage(nine, 298, 360, 100, 100);
+        ctx.drawImage(seven, 100, 400, 100, 100);
+        ctx.drawImage(eight, 200, 400, 100, 100);
+        ctx.drawImage(nine, 300, 400, 100, 100);
 
-        ctx.drawImage(four4, 100, 459, 100, 100);
-        ctx.drawImage(five, 199, 459, 100, 100);
-        ctx.drawImage(six, 298, 459, 100, 100);
+        ctx.drawImage(four4, 100, 500, 100, 100);
+        ctx.drawImage(five, 200, 500, 100, 100);
+        ctx.drawImage(six, 300, 500, 100, 100);
 
-        ctx.drawImage(one, 100, 558, 100, 100);
-        ctx.drawImage(two, 199, 558, 100, 100);
-        ctx.drawImage(three, 298, 558, 100, 100);
+        ctx.drawImage(one, 100, 600, 100, 100);
+        ctx.drawImage(two, 200, 600, 100, 100);
+        ctx.drawImage(three, 300, 600, 100, 100);
 
-        ctx.drawImage(zero, 199, 657, 100, 100);
+        ctx.drawImage(zero, 400, 600, 100, 100);
 
-        ctx.drawImage(clear, 397, 360, 100, 100);
-        ctx.drawImage(decision, 397, 459, 100, 100);
+        ctx.drawImage(clear, 400, 400, 100, 100);
+        ctx.drawImage(decision, 400, 500, 100, 100);
 
         timer = 400;
         timerflag = true;
         keyflag = true;
+        Enterflag = true;
 
         four = Math.floor(Math.random() * 4);
         score = 0, errorCount = 0;
@@ -123,7 +130,7 @@ function loop() {
     ctx.drawImage(equal, 275, 58, 50, 50); //=
 
     ctx.font = "30px sans-serif";
-    let scoretext = "スコア：" + score + "　　ミス：" + errorCount;
+    let scoretext = "正解：" + score + "　　ミス：" + errorCount;
     textWidth = ctx.measureText(scoretext).width;
     ctx.fillText(scoretext, (canvas.width - textWidth) / 2, 250);
 
@@ -148,11 +155,10 @@ function keypress(e) {
     }
 
     if (e.key === 'Enter' && Enterflag == true) {
-        keypresstimes = 0;
         Enterflag = false;
         Decision();
     }
-    if (e.key === 'c') {
+    if (e.key === 'c' || e.key === 'Backspace') {
         keypresstimes = 0;
         keyflag = true;
         ctx.clearRect(370, 30, 260, 75);
@@ -166,9 +172,21 @@ canvas.addEventListener("click", e => {
         y: e.clientY - rect.top
     };
 
+    let tutorialSquare = {
+        x: 230, y: 500,
+        w: 140, h: 60
+    };
+
+    let hitTutorial =
+        (tutorialSquare.x <= point.x && point.x <= tutorialSquare.x + tutorialSquare.w)  // 横方向の判定
+        && (tutorialSquare.y <= point.y && point.y <= tutorialSquare.y + tutorialSquare.h)  // 縦方向の判定
+    if (hitTutorial && tutorialflag) {
+        tutorial();
+    }
+
     let startSquare = {
         x: 0, y: 0,
-        w: canvas.width, h: canvas.height
+        w: canvas.width, h: 500
     };
 
     let hitStart =
@@ -368,6 +386,11 @@ function Display() {
     ctx.fillStyle = "black";
     ctx.fillText(response, 370, 100);
     keypresstimes++;
+
+    if (response === 0) {
+        keypresstimes = 0;
+    }
+
     if (keypresstimes === 3) {
         keyflag = false;
     }
@@ -394,8 +417,10 @@ function Check() {
 
     const ms = 500;
     setTimeout(() => {
-        ctx.clearRect(0, 0, canvas.width, 270);
-        trigger();
+        if (timerflag == true) {
+            ctx.clearRect(0, 0, canvas.width, 270);
+            trigger();
+        }
     }, ms);
 }
 
@@ -409,7 +434,7 @@ let countdown = setInterval(function () {
         ctx.font = "20px sans-serif";
         ctx.fillStyle = "black";
         ctx.fillText("残り時間", 10, 294);
-        ctx.fillRect(100, 280, timer, 15)
+        ctx.fillRect(102, 282, timer, 11)
     }
 
     if (timer == 0) {
@@ -419,14 +444,54 @@ let countdown = setInterval(function () {
 }, 100)
 
 function End() {
-    startflag = true, Enterflag = false, keyflag = false;
+    Enterflag = false, keyflag = false;
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
     ctx.font = "80px sans-serif";
     ctx.fillStyle = "black";
-    const endText = "終了！";
+    let endText = "終了！";
     textWidth = ctx.measureText(endText).width;
     ctx.fillText(endText, (canvas.width - textWidth) / 2, 150);
+
+    let scr = (score + errorCount) * 56 + (score * 698) - (errorCount * 349);
+    ctx.font = "40px sans-serif";
+    const ms = 1000;
+    setTimeout(() => {
+        ctx.fillText("スコア：" + scr, 150, 350);
+        ctx.fillText("　正解：" + score, 150, 420);
+        ctx.fillText("　ミス：" + errorCount, 150, 490);
+
+        let startText = "SPACEキー or タップ";
+        let textWidth = ctx.measureText(startText).width;
+        ctx.fillText(startText, (canvas.width - textWidth) / 2, 600);
+        startText = "リスタート";
+        textWidth = ctx.measureText(startText).width;
+        ctx.fillText(startText, (canvas.width - textWidth) / 2, 680);
+
+        startflag = true;
+    }, ms);
+}
+
+function tutorial() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    ctx.font = "80px sans-serif";
+    let text = "遊び方";
+    textWidth = ctx.measureText(text).width;
+    ctx.fillText(text, (canvas.width - textWidth) / 2, 150);
+    ctx.font = "25px sans-serif";
+    ctx.fillText("・０〜９をタップまたはキーを押して入力します", 20, 300);
+    ctx.fillText("・", 20, 340);
+    ctx.drawImage(clear, 45, 315, 30, 30);
+    ctx.fillText("をタップまたはCキーで取り消せます", 80, 340);
+    ctx.fillText("・", 20, 380);
+    ctx.drawImage(decision, 45, 355, 30, 30);
+    ctx.fillText("をタップまたはEnterキーで回答できます", 80, 380);
+
+    ctx.strokeRect(230, 500, 140, 60);
+    ctx.font = "30px sans-serif";
+    ctx.fillText("戻る", 270, 540);
+    ctx.font = "40px sans-serif";
 
 
 }
